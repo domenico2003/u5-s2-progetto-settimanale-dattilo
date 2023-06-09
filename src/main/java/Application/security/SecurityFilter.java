@@ -3,7 +3,6 @@ package Application.security;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -12,6 +11,7 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import Application.Entities.User;
+import Application.Exceptions.UnauthorizedException;
 import Application.Services.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -30,13 +30,12 @@ public class SecurityFilter extends OncePerRequestFilter {
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
+			throws ServletException, IOException, UnauthorizedException {
 
 		String baererToken = request.getHeader("Authorization");
 
 		if (baererToken == null || !baererToken.startsWith("Bearer ")) {
-			throw new AuthenticationServiceException(
-					"ci sono stati dei Problemi , per favore effettua di nuovo il login");
+			throw new UnauthorizedException("ci sono stati dei Problemi , per favore effettua di nuovo il login");
 		}
 
 		String token = baererToken.substring(7);

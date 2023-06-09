@@ -2,6 +2,8 @@ package Application.Entities;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import Application.Entities.enums.StatoDispositivo;
 import Application.Entities.enums.TipoDispositivo;
 import jakarta.persistence.Entity;
@@ -36,6 +38,7 @@ public class Dispositivo {
 	@NotNull
 	private String dimensioneSchermo;
 	@ManyToOne
+	@JsonBackReference
 	private User utenteAssegnato;
 
 	@Override

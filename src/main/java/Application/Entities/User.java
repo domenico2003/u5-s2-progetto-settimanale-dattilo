@@ -1,6 +1,5 @@
 package Application.Entities;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -8,6 +7,8 @@ import java.util.UUID;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import Application.Entities.enums.RoleType;
 import jakarta.persistence.Entity;
@@ -45,8 +46,9 @@ public class User implements UserDetails {
 	@Enumerated(EnumType.STRING)
 	private RoleType role = RoleType.USER;
 	@NotNull
-	@OneToMany
-	List<Dispositivo> dispositivi = new ArrayList<>();
+	@OneToMany(mappedBy = "utenteAssegnato")
+	@JsonManagedReference
+	List<Dispositivo> dispositivi;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
